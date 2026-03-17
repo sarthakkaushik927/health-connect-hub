@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { api } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthInput from "@/components/AuthInput";
 import SpinnerButton from "@/components/SpinnerButton";
-import { Shield } from "lucide-react";
+import { Shield, CheckCircle2 } from "lucide-react";
 
 const loginSchema = z.object({
   email: z.string().trim().email("Please enter a valid email"),
@@ -15,7 +15,9 @@ const loginSchema = z.object({
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
+  const signupConfirmed = location.state?.signupConfirmed;
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -38,7 +40,7 @@ const Login = () => {
     setLoading(true);
     try {
       const data = await api.login({ email: form.email, password: form.password });
-      login(data.token);
+      login(data.token, data.name);
       navigate("/dashboard");
     } catch (err: any) {
       const msg = err.message || "Login failed. Please try again.";
@@ -73,6 +75,20 @@ const Login = () => {
         </div>
         <h1 className="text-2xl font-semibold text-foreground">Welcome back</h1>
         <p className="text-muted mt-2 mb-8 text-sm">Sign in to access your health records.</p>
+
+        {signupConfirmed && !apiError && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-6 p-4 rounded-xl bg-accent border border-primary/20 flex items-start gap-3 text-left"
+          >
+            <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-foreground">Signup confirmed!</p>
+              <p className="text-xs text-muted leading-relaxed">Your account is now verified. Please sign in to continue.</p>
+            </div>
+          </motion.div>
+        )}
 
         {apiError && (
           <motion.div

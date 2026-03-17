@@ -27,7 +27,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = (token: string, name?: string) => {
     localStorage.setItem("auth_token", token);
-    if (name) localStorage.setItem("auth_name", name);
+    if (name) {
+      localStorage.setItem("auth_name", name);
+    }
     setState((s) => ({ ...s, token, userName: name || s.userName }));
   };
 

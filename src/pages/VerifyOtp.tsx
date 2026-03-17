@@ -26,8 +26,7 @@ const VerifyOtp = () => {
     try {
       await api.verifyOtp({ phone, otp: Number(otp) });
       setSuccess(true);
-      setVerified();
-      setTimeout(() => navigate("/dashboard"), 1200);
+      setTimeout(() => navigate("/login", { state: { signupConfirmed: true } }), 1200);
     } catch (err: any) {
       setError(err.message?.toLowerCase().includes("invalid") ? "That code is incorrect. Please check and try again." : err.message);
     } finally {

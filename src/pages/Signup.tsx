@@ -44,6 +44,7 @@ const Signup = () => {
         phone: Number(form.phone),
         password: form.password,
       });
+      localStorage.setItem("auth_name", form.name);
       setPhone(Number(form.phone));
       // Send OTP automatically
       try {

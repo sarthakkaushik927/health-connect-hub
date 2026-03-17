@@ -19,7 +19,7 @@ const Index = () => {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-primary" />
-            <span className="font-semibold text-foreground">HealthPortal</span>
+            <span className="font-semibold text-foreground">HealthConnect Hub</span>
           </div>
           <button
             onClick={() => navigate("/login")}

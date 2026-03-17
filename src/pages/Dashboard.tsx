@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Shield, FileText, Calendar, User, LogOut, Activity, Heart, Pill } from "lucide-react";
 
 const Dashboard = () => {
-  const { userName, logout, isAuthenticated } = useAuth();
+  const { userName, logout, isAuthenticated, isVerified } = useAuth();
   const navigate = useNavigate();
 
   if (!isAuthenticated) {
@@ -35,7 +35,7 @@ const Dashboard = () => {
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-primary" />
-            <span className="font-semibold text-foreground">HealthPortal</span>
+            <span className="font-semibold text-foreground">HealthConnect Hub</span>
           </div>
           <button onClick={handleLogout} className="flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors">
             <LogOut className="w-4 h-4" /> Sign out
@@ -49,9 +49,16 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <h1 className="text-3xl font-semibold text-foreground">
-            Welcome{userName ? `, ${userName}` : ""}
-          </h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-semibold text-foreground">
+              Welcome{userName ? `, ${userName}` : ""}
+            </h1>
+            {isVerified && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-primary text-xs font-medium border border-primary/20">
+                <Shield className="w-3 h-3" /> Signup Confirmed
+              </span>
+            )}
+          </div>
           <p className="text-muted mt-2">Your health data, secured.</p>
         </motion.div>
 

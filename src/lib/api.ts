@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "http://localhost:5000";
 
 export interface SignupData {
   name: string;
@@ -47,7 +47,7 @@ export const api = {
     }),
 
   login: (data: LoginData) =>
-    request<{ message: string; token: string }>("/auth/login", {
+    request<{ message: string; token: string; name: string }>("/auth/login", {
       method: "POST",
       body: JSON.stringify(data),
     }),
